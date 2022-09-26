@@ -7,6 +7,7 @@ import { Highlight } from '@components/Highlight';
 import { ListEmpty } from '@components/ListEmpty';
 
 import { Container } from './styles';
+import { Button } from '@components/Button';
 
 
 
@@ -34,6 +35,9 @@ export function Groups() {
             message="Que tal Cadastrar a primeira turma?"
           />
         )}
+      />
+      <Button 
+        title="Criar nova turma"
       />
     </Container>
   );
