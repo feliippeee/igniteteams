@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 export type ButtonTypeStyleProps = 'PRIMARY' | 'SECONDARY';
 
-type Props = {
+type Props = TouchableOpacity &{
     type: ButtonTypeStyleProps;
 }
 
