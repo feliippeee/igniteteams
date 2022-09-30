@@ -4,13 +4,13 @@ import { PlayerStorageDTO } from "./playerStorageDTO";
 
 export async function playersGetByGroup(group: string) {
     try {
-        const storage = await AsyncStorage.getItem(`${PLAYER_COLLECTION}-${group}`)
+        const storage = await AsyncStorage.getItem(`${PLAYER_COLLECTION}-${group}`);
 
         const players: PlayerStorageDTO[] = storage ? JSON.parse(storage) : [];
         
         return players;
 
     } catch (error) {
-        throw error
+        throw error;
     }
 }
