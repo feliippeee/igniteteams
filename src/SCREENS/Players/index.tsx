@@ -9,6 +9,7 @@ import { PlayerRemoveByGroup } from '@storage/player/playerRemoveByGroup';
 import { groupRemoveByName } from '@storage/group/groupRemoveByName';
 import { AppError } from '@utils/AppError';
 
+import { Loading } from '@components/Loading';
 import { Input } from '@components/Input';
 import { ButtonIcon } from '@components/ButtonIcon';
 import { Header } from '@components/Header';
@@ -25,6 +26,7 @@ type RouteParams = {
 }
 
 export function Players() {
+    const [isLoading, setIsLoading] = useState(true);
     const [ newPlayerName, setNewPlayerName ] = useState('');
     const [team, setTeam ] = useState('Time A');
     const [players, setPlayers] = useState<PlayerStorageDTO[]>([]);
@@ -48,7 +50,6 @@ export function Players() {
             await playerAddByGroup(newPlayer, group);
 
             newPlayerNameInputRef.current?.blur(); // tira o cursor do input
-            //Keyboard.dismiss(); 
 
             setNewPlayerName('')
             fetchPlayersByTeam();
@@ -65,8 +66,10 @@ export function Players() {
     
     async function fetchPlayersByTeam() {
         try {
+            setIsLoading(true);
             const playersByTeam = await playersGetByGroupAndTeam(group, team);
             setPlayers(playersByTeam);
+            setIsLoading(false)
         }catch(error){
             console.log(error);
             Alert.alert('Pessoas', 'Não foi possível carregar as pessoas do time selecionado');
@@ -96,7 +99,7 @@ export function Players() {
     async function handleGroupRemove() {
         Alert.alert(
             'Remover',
-            'Deseja remover o grupo?',
+            'Deseja remover a turma?',
             [
                 { text: 'Não', style: 'cancel'},
                 { text: 'Sim', onPress: () => groupRemove()}
@@ -152,6 +155,9 @@ export function Players() {
                 </NumberOfPlayers>
             </HeaderList>
 
+            {   isLoading ? <Loading /> :
+            
+
             <FlatList 
                 data={players}
                 keyExtractor={item => item.name}
@@ -170,6 +176,7 @@ export function Players() {
                   contentContainerStyle={[ { paddingBottom: 100}, players.length === 0 && { flex: 1}
                 ]}
             />
+            }
 
             <Button 
                 title="Remover turma"
